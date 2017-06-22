@@ -101,12 +101,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         // Check if Uri is null or not
         if (mProductUri != null) {
-            // If not null means that a pet register will be edited
+            // If not null means that a product register will be edited
             setTitle(R.string.activity_detail_edit);
             // Kick off LoaderManager
             getLoaderManager().initLoader(URI_LOADER, null, this);
         } else {
-            // If null means that a new pet register will be created
+            // If null means that a new product register will be created
             setTitle(R.string.activity_detail_new);
             // Invalidate options menu (delete button) since there's no record
             invalidateOptionsMenu();
@@ -130,16 +130,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // I can't assess whether or not this one works since my emulator does not
-                    // run email intent. I am sorry!
-                    // TODO: Test this email intent properly :(
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("*/*");
-                    intent.setData(Uri.parse(URI_EMAIL));
+                    intent.setData(Uri.parse("mailto:"));
+                    intent.setType("text/plain");
                     // Defining supplier's email. Ideally it would come from the product database in a real world
-                    // application but I am using a string to make it simple for this exercise
+                    // application but I am using a string to make it simple for this exercise.
+                    // This code was also fixed according to the previous reviewer's feedback
                     intent.putExtra(Intent.EXTRA_EMAIL, getString(R.string.supplier_email));
                     intent.putExtra(Intent.EXTRA_SUBJECT, mProductName);
+                    startActivity(Intent.createChooser(intent, "Send mail..."));
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
                     }
@@ -246,12 +245,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                         }
                         return;
                     }
-                    // If permission granted, create a new intent
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    // Set intent type as IMAGE
-                    intent.setType("image/*");
-                    // Launch image chooser
-                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO);
+                    // If permission granted, create a new intent and prompt
+                    // user to pick image from Gallery
+                    Intent getIntent = new Intent(Intent.ACTION_PICK);
+                    getIntent.setType("image/*");
+                    startActivityForResult(getIntent, SELECT_PHOTO);
                 }
             }
         });
@@ -386,6 +384,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             Toast.makeText(this, getString(R.string.toast_invalid_quantity_add), Toast.LENGTH_SHORT).show();
         } else if (priceIsEmpty) {
             Toast.makeText(this, getString(R.string.toast_invalid_price_add), Toast.LENGTH_SHORT).show();
+        } else if (mProductBitmap == null) {
+            Toast.makeText(this, getString(R.string.toast_invalid_image_add), Toast.LENGTH_SHORT).show();
         } else {
             // Assuming that all fields are valid, pass the edit text
             // value to a String for easier manipulation
@@ -398,15 +398,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             values.put(ProductEntry.COLUMN_NAME, name);
             values.put(ProductEntry.COLUMN_QUANTITY, mProductQuantity);
             values.put(ProductEntry.COLUMN_PRICE, price);
-
-            // Check if user wants to add a picture to the current product.
-            // I made the decision of allowing this field to be null since it won't
-            // always have an image to add
-            if (mProductBitmap != null) {
-                // If an image was picked, transform to byte array before put into ContentValues
-                byte[] image = getBytes(mProductBitmap);
-                values.put(ProductEntry.COLUMN_IMAGE, image);
-            }
+            byte[] image = getBytes(mProductBitmap);
+            values.put(ProductEntry.COLUMN_IMAGE, image);
 
             // Check if Uri is valid to determine whether is new product insertion or existing product update
             if (mProductUri == null) {
@@ -580,9 +573,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mPriceEditText.setText(data.getString(data.getColumnIndex(ProductEntry.COLUMN_PRICE)));
             mProductQuantity = data.getInt(data.getColumnIndex(ProductEntry.COLUMN_QUANTITY));
             mQuantityTextView.setText(String.valueOf(mProductQuantity));
-            // If an image is available, the method getImage will retrieve as a byte array
-            // and transform into a Bitmap so it can be shown in the UI.
-            // Again, I decided to allow the user not to add image to the product.
             if (data.getBlob(data.getColumnIndex(ProductEntry.COLUMN_IMAGE)) != null) {
                 mProductImageView.setImageBitmap(getImage(data.getBlob(data.getColumnIndex(ProductEntry.COLUMN_IMAGE))));
             }

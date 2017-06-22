@@ -37,6 +37,7 @@
     <string name="toast_invalid_name_add">Please input a valid NAME</string>
     <string name="toast_invalid_quantity_add">Please input a valid QUANTITY</string>
     <string name="toast_invalid_price_add">Please input a valid PRICE</string>
+    <string name="toast_invalid_image_add">Please input a valid IMAGE</string>
     <string name="toast_product_out_stock">Product out of stock! Please order more!</string>
 
     <!-- Alert dialog messages -->
