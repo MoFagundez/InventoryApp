@@ -1,0 +1,55 @@
+<resources>
+    <!-- App and activities names -->
+    <string name="app_name">Inventory App</string>
+    <string name="activity_detail_new">Add new product</string>
+    <string name="activity_detail_edit">Edit product</string>
+
+    <!-- Empty text view to display when database is empty -->
+    <string name="empty_text_view">Uh oh. No products found. \n\n Click Add Product on the top \n right corner to start!</string>
+
+    <!-- Menu names -->
+    <string name="add_button">Add</string>
+    <string name="delete_button">Delete</string>
+
+    <!-- DetailActivity field names -->
+    <string name="name_field">Product Name:</string>
+    <string name="name_hint">I.e.: Bauer shoulder pads</string>
+    <string name="quantity_field">Quantity:</string>
+    <string name="price_field">Price (CAD):</string>
+    <string name="price_hint">0.00</string>
+    <string name="quantity_zero">0</string>
+    <string name="quantity_ten">10</string>
+    <string name="button_increase_one">+</string>
+    <string name="button_decrease_one">-</string>
+    <string name="button_order_supplier">Order from supplier</string>
+    <string name="modify_quantity_field">Modify Quantity By:</string>
+    <string name="button_select_image">Select image...</string>
+    <string name="supplier_email">my_dear@best_supplier.com</string>
+
+    <!-- Toast messages -->
+    <string name="toast_insert_or_update_product_failed">Product not saved/updated!</string>
+    <string name="toast_insert_product_success">New product successfully added!</string>
+    <string name="toast_update_product_success">Product successfully updated!</string>
+    <string name="toast_delete_product_success">Product successfully deleted!</string>
+    <string name="toast_delete_product_failed">Could not delete product!</string>
+    <string name="toast_invalid_quantity">Quantity cannot be less than zero</string>
+    <string name="toast_missing_quantity">Please inform quantity in the text field</string>
+    <string name="toast_invalid_name_add">Please input a valid NAME</string>
+    <string name="toast_invalid_quantity_add">Please input a valid QUANTITY</string>
+    <string name="toast_invalid_price_add">Please input a valid PRICE</string>
+    <string name="toast_product_out_stock">Product out of stock! Please order more!</string>
+
+    <!-- Alert dialog messages -->
+    <string name="prompt_delete_product">Are you sure you want to delete the product?</string>
+    <string name="prompt_delete">Delete</string>
+    <string name="prompt_cancel">Cancel</string>
+    <string name="prompt_yes">Yes</string>
+    <string name="prompt_leave_no_save">Do you want to leave without saving the product?</string>
+
+    <!-- MainActivity field names -->
+    <string name="button_sale">sale</string>
+    <string name="label_quantity"> available in stock</string>
+    <string name="label_price">C$ </string>
+
+
+</resources>
